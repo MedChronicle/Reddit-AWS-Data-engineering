@@ -147,3 +147,6 @@ wrapt==1.15.0
 WTForms==3.1.0
 yarl==1.9.2
 zipp==3.17.0
+# --- added in v2 ---
+pyarrow==11.0.0            # Parquet output (11.x matches the Airflow 2.7.2 constraints)
+psycopg2-binary==2.9.9     # Postgres loader
