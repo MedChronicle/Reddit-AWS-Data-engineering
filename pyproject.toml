@@ -1,0 +1,11 @@
+[tool.ruff]
+line-length = 130
+target-version = "py39"
+extend-exclude = ["__MACOSX"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"] 
+
+[tool.ruff.lint.isort]
+known-first-party = ["etls", "pipelines", "utils", "tests"]
