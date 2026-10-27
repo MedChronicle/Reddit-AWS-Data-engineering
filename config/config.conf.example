@@ -1,26 +1,53 @@
+# Copy to config/config.conf (git-ignored). Every value can ALSO be set with an
+# environment variable (shown in comments) and the env var always wins - see .env.example.
+
 [database]
-database_host = localhost
+# Inside docker-compose the host is the service name "postgres"; use localhost when running outside Docker
+database_host = postgres
 database_name = airflow_reddit
 database_port = 5432
 database_username = postgres
-database_password = postrgres
+database_password = postgres
+# schema that holds the reddit tables/views
+database_schema = reddit
+# set to false to skip the Postgres load task
+load_to_postgres = true
 
 [file_paths]
 input_path = /opt/airflow/data/input
 output_path = /opt/airflow/data/output
 
 [api_keys]
+# env: REDDIT_SECRET_KEY / REDDIT_CLIENT_ID
 reddit_secret_key = [SECRET KEY HERE]
 reddit_client_id = [CLIENT ID HERE]
+# Reddit asks for a descriptive, unique user agent
+reddit_user_agent = script:reddit-aws-data-engineering:v2.0 (by /u/your-username)
 
 [aws]
+# LEAVE the three credential lines as placeholders to use an IAM role / ~/.aws profile (recommended)
 aws_access_key_id = [aws access key id]
 aws_secret_access_key= [aws secret key]
 aws_session_token= [aws session token]
 aws_region = [aws region]
 aws_bucket_name = [s3 bucket name]
+# only for LocalStack / MinIO, e.g. http://localstack:4566
+# aws_endpoint_url = http://localstack:4566
+# block public access + encryption + versioning + lifecycle (best effort)
+harden_bucket = true
 
 [etl_settings]
 batch_size = 100
+# abort = fail the run on data-quality errors | continue = drop bad rows and carry on
 error_handling = abort
 log_level = info
+# comma separated list - one extract/upload/load branch per subreddit
+subreddits = dataengineering
+# local files older than this are deleted by the cleanup task (0 = keep forever)
+retention_days = 14
+min_rows = 1
+write_parquet = true
+
+[alerts]
+# optional - failures are always logged, and posted to Slack when this is set
+# slack_webhook_url = https://hooks.slack.com/services/XXX/YYY/ZZZ
