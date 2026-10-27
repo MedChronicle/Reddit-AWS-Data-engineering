@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest==8.0.2
+moto[server]==4.2.14
+ruff==0.4.10
