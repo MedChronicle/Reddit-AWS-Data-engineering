@@ -2,3 +2,14 @@
 logs
 .idea
 __pycache__
+.env
+.venv
+venv
+.pytest_cache
+.ruff_cache
+*.pyc
+*.tmp
+# generated pipeline output (the original sample CSV stays tracked)
+data/output/*.parquet
+data/output/*_summary.json
+data/output/reddit_*_*.csv
